@@ -1,0 +1,20 @@
+main{
+    min-height: 80vh;
+}
+.me-left {
+    margin-left: auto !important;
+    margin-right: 0px !important;
+    flex-basis: auto !important;
+}
+.rating span {
+    margin: 0.1rem;
+}
+h3 {
+    padding: 1rem 0;
+}
+.no-wrap {
+    flex-wrap: nowrap !important;
+}
+.blo {
+    display: none
+}
