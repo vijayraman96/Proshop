@@ -9,6 +9,7 @@ import { listUsers, deleteUser } from '../actions/userActions';
 import { useNavigate } from 'react-router-dom';
 
 const UserListScreen = () => {
+    console.log('vijay')
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const userList = useSelector(state => state.userList)
