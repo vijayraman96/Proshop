@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.orderListMyReducer = exports.orderPayReducer = exports.orderDetailsReducer = exports.orderCreateReducer = void 0;
+exports.orderDeliverReducer = exports.orderListReducer = exports.orderListMyReducer = exports.orderPayReducer = exports.orderDetailsReducer = exports.orderCreateReducer = void 0;
 
 var _orderConstant = require("../constants/orderConstant");
 
@@ -145,3 +145,71 @@ var orderListMyReducer = function orderListMyReducer() {
 };
 
 exports.orderListMyReducer = orderListMyReducer;
+
+var orderListReducer = function orderListReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    orders: []
+  };
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _orderConstant.ORDER_LIST_REQUEST:
+      return {
+        loading: true
+      };
+
+    case _orderConstant.ORDER_LIST_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload
+      };
+
+    case _orderConstant.ORDER_LIST_FAIL:
+      return {
+        loading: false,
+        error: action.payload
+      };
+
+    case _orderConstant.ORDER_LIST_MY_RESET:
+      return {
+        orders: []
+      };
+
+    default:
+      return state;
+  }
+};
+
+exports.orderListReducer = orderListReducer;
+
+var orderDeliverReducer = function orderDeliverReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _orderConstant.ORDER_DELIEVER_REQUEST:
+      return {
+        loading: true
+      };
+
+    case _orderConstant.ORDER_DELIEVER_SUCCESS:
+      return {
+        loading: false,
+        success: true
+      };
+
+    case _orderConstant.ORDER_DELIEVER_FAIL:
+      return {
+        loading: false,
+        error: action.payload
+      };
+
+    case _orderConstant.ORDER_DELIEVER_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+exports.orderDeliverReducer = orderDeliverReducer;

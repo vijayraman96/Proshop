@@ -3,74 +3,89 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Container, Row, Col} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import { logout } from "../actions/userActions";
+import { useNavigate } from 'react-router';
+import Searchbox from "./Searchbox";
+import { Route, Routes } from "react-router";
+import { useParams } from "react-router";
 
 const Header = () => {
+  const [keyValue, setKeyValue] = useState('')
+  const id = useParams()
+  // console.log('header id', id)
   const dispatch = useDispatch()
   const userLogin = useSelector(state => state.userLogin);
   const {userInfo} = userLogin;
-  console.log(userInfo)
+  let navigate = useNavigate();
+  // console.log(userInfo)
   const logoutHandler = () => {
     dispatch(logout())
     console.log('logout')
   }
-  console.log("user info header", userInfo)
+  // console.log(keyValue)
+  const getKeyword = (val) => {
+    setKeyValue(val)
+  }
+  const navigateHandeler = (val) => {
+    navigate(val)
+  }
+  // console.log("user info header", userInfo)
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <LinkContainer to="">
+          <div onClick={() => {navigateHandeler('/')}} >
             <Navbar.Brand >proshop</Navbar.Brand>
-          </LinkContainer>
+          </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="">
+            <Searchbox history={id} />
             <Nav className="me-left">
-            <LinkContainer to="/cart">
+            <div onClick={() => {navigateHandeler('/cart')}}>
                 <Nav.Link > <i className="fas fa-shopping-cart"></i> Cart</Nav.Link>
-              </LinkContainer>
+              </div>
               {/* {userInfo ? (<NavDropdown  title={name} id="username"> 
-                <LinkContainer to="/profile">
+                <div to="/profile">
                   <NavDropdown.Item>
                     Profile
                   </NavDropdown.Item>
-                </LinkContainer>
+                </div>
                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-              </NavDropdown>) : (<LinkContainer to="/login">
+              </NavDropdown>) : (<div to="/login">
                 <Nav.Link > <i className="fas fa-user"></i> Sign In</Nav.Link>
-              </LinkContainer>)} */}
+              </div>)} */}
               {userInfo === null || userInfo === '' || userInfo === undefined ? (
-                <LinkContainer to="/login">
+                <div onClick={() => {navigateHandeler('/login')}}>
                 <Nav.Link > <i className="fas fa-user"></i> Sign In</Nav.Link>
-              </LinkContainer>
+              </div>
               ) : (
                 <NavDropdown  title={userInfo === null || userInfo === '' || userInfo === undefined ? "Create Account" : userInfo.name} id="username"> 
-                <LinkContainer to="/profile">
+                <div to="/profile">
                   <NavDropdown.Item>
                     Profile
                   </NavDropdown.Item>
-                </LinkContainer>
+                </div>
                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
               </NavDropdown>
               )}
               {userInfo && userInfo.IsAdmin && (
                 <NavDropdown  title="Admin" id="adminmenu"> 
-                <LinkContainer to="/admin/userlist">
+                <div onClick={() => {navigateHandeler('/admin/userlist')}} >
                   <NavDropdown.Item>
                     Users
                   </NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="admin/productlist">
+                </div>
+                <div onClick={() => {navigateHandeler('/admin/productlist')}}>
                   <NavDropdown.Item>
                     Products
                   </NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="admin/orderList">
+                </div>
+                <div onClick={() => {navigateHandeler('/admin/orderList')}} >
                   <NavDropdown.Item>
                     Orders
                   </NavDropdown.Item>
-                </LinkContainer>
+                </div>
                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
               </NavDropdown>
               )}

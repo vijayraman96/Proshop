@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Row, Col, Button, Table} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap'
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
@@ -32,6 +32,9 @@ const ProfileScreen = () => {
   
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate()
+    const navigateHandeler = (val) => {
+        navigate(val)
+      }
     console.log(userInfo)
     console.log(user)
     useEffect(() => {
@@ -115,9 +118,9 @@ const ProfileScreen = () => {
                                 <td>{order.isPaid ? order.paidAt.substring(0, 10): (<i className="fas fa-times" style={{color: 'red'}}></i>)}</td>
                                 <td>{order.isDelivered ? order.isDelivered.substring(0, 10): (<i className="fas fa-times" style={{color: 'red'}}></i>)}</td>
                                 <td>
-                                    <LinkContainer to={`/order/${order._id}`}>
+                                    <div onClick={() => {navigateHandeler(`/product/${order._id}/`)}}>
                                         <Button variant="light">Details</Button>
-                                    </LinkContainer>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

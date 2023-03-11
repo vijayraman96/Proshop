@@ -1,17 +1,21 @@
 import React from 'react'
 import { Nav } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import { useNavigate } from 'react-router';
 
 const CheckOut = ({step1, step2, step3, step4}) => {
+    const navigate = useNavigate()
+    const navigateHandeler = (val) => {
+        navigate(val)
+      }
   return (
     <Nav className="justify-content-center mb-4">
         <Nav.Item>
             {
                 step1 ? 
                 (
-                <LinkContainer to="/login">
+                <div onClick={() => {navigateHandeler('/login')}} >
                     <Nav.Link>Sign In</Nav.Link>
-                </LinkContainer>
+                </div>
                 ) 
                 : (
                     <Nav.Link disabled>Sign In</Nav.Link>
@@ -22,9 +26,9 @@ const CheckOut = ({step1, step2, step3, step4}) => {
             {
                 step2 ? 
                 (
-                <LinkContainer to="/shipping">
+                <div  onClick={() => {navigateHandeler('/shipping')}} >
                     <Nav.Link>Shipping</Nav.Link>
-                </LinkContainer>
+                </div>
                 ) 
                 : (
                     <Nav.Link disabled>Shipping</Nav.Link>
@@ -35,9 +39,9 @@ const CheckOut = ({step1, step2, step3, step4}) => {
             {
                 step3 ? 
                 (
-                <LinkContainer to="/payment">
+                <div onClick={() => {navigateHandeler('/payment')}} >
                     <Nav.Link>Payment</Nav.Link>
-                </LinkContainer>
+                </div>
                 ) 
                 : (
                     <Nav.Link disabled>Payment</Nav.Link>
@@ -48,9 +52,9 @@ const CheckOut = ({step1, step2, step3, step4}) => {
             {
                 step4 ? 
                 (
-                <LinkContainer to="/placeorder">
+                <div onClick={() => {navigateHandeler('/placeholder')}}>
                     <Nav.Link>Place Order</Nav.Link>
-                </LinkContainer>
+                </div>
                 ) 
                 : (
                     <Nav.Link disabled>Place Order</Nav.Link>

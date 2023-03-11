@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.listMyOrders = exports.payOrder = exports.getOrderDetails = exports.createOrder = void 0;
+exports.delieverOrder = exports.listOrders = exports.listMyOrders = exports.payOrder = exports.getOrderDetails = exports.createOrder = void 0;
 
 var _orderConstant = require("../constants/orderConstant");
 
@@ -213,3 +213,104 @@ var listMyOrders = function listMyOrders() {
 };
 
 exports.listMyOrders = listMyOrders;
+
+var listOrders = function listOrders() {
+  return function _callee5(dispatch, getState) {
+    var _getState5, userInfo, config, _ref5, data;
+
+    return regeneratorRuntime.async(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            dispatch({
+              type: _orderConstant.ORDER_LIST_REQUEST
+            });
+            _getState5 = getState(), userInfo = _getState5.userLogin.userInfo;
+            config = {
+              headers: {
+                Authorization: "Bearer ".concat(userInfo.token)
+              }
+            };
+            _context5.next = 6;
+            return regeneratorRuntime.awrap(_axios["default"].get("/api/order", config));
+
+          case 6:
+            _ref5 = _context5.sent;
+            data = _ref5.data;
+            dispatch({
+              type: _orderConstant.ORDER_LIST_SUCCESS,
+              payload: data
+            });
+            _context5.next = 14;
+            break;
+
+          case 11:
+            _context5.prev = 11;
+            _context5.t0 = _context5["catch"](0);
+            dispatch({
+              type: _orderConstant.ORDER_LIST_FAIL,
+              payload: _context5.t0.response && _context5.t0.response.data.message ? _context5.t0.response.data.message : _context5.t0.message
+            });
+
+          case 14:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, null, null, [[0, 11]]);
+  };
+};
+
+exports.listOrders = listOrders;
+
+var delieverOrder = function delieverOrder(order) {
+  return function _callee6(dispatch, getState) {
+    var _getState6, userInfo, config, _ref6, data;
+
+    return regeneratorRuntime.async(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            dispatch({
+              type: _orderConstant.ORDER_DELIEVER_REQUEST
+            });
+            _getState6 = getState(), userInfo = _getState6.userLogin.userInfo;
+            config = {
+              headers: {
+                Authorization: "Bearer ".concat(userInfo.token)
+              }
+            };
+            _context6.next = 6;
+            return regeneratorRuntime.awrap(_axios["default"].put("/api/order/".concat(order._id, "/deliever"), {}, config));
+
+          case 6:
+            _ref6 = _context6.sent;
+            data = _ref6.data;
+            console.log('deliever', data);
+            dispatch({
+              type: _orderConstant.ORDER_DELIEVER_SUCCESS,
+              payload: data
+            });
+            _context6.next = 15;
+            break;
+
+          case 12:
+            _context6.prev = 12;
+            _context6.t0 = _context6["catch"](0);
+            dispatch({
+              type: _orderConstant.ORDER_DELIEVER_FAIL,
+              payload: _context6.t0.response && _context6.t0.response.data.message ? _context6.t0.response.data.message : _context6.t0.message
+            });
+
+          case 15:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, null, null, [[0, 12]]);
+  };
+};
+
+exports.delieverOrder = delieverOrder;

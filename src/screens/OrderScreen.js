@@ -6,9 +6,9 @@ import { useSearchParams, useNavigate, Navigate, useParams } from 'react-router-
 import Message from '../components/Message';
 // import Loader from '../components/Loader';
 import { Link } from 'react-router-dom';
-import { getOrderDetails, payOrder, razorCreateOrder } from '../actions/orderActions';
+import { getOrderDetails, payOrder, razorCreateOrder, delieverOrder } from '../actions/orderActions';
 import Loader from '../components/Loader';
-import { ORDER_PAY_RESET } from '../constants/orderConstant';
+import { ORDER_PAY_RESET, ORDER_DELIEVER_RESET } from '../constants/orderConstant';
 import useRazorpay from "react-razorpay";
 
 const OrderScreen = () => {
@@ -21,7 +21,10 @@ const OrderScreen = () => {
     const {order, loading, error} = orderDetails;
     const orderPay = useSelector(state => state.orderPay);
     const {loading:loadingPay, success:successPay} = orderPay;
-   
+    const orderDeliever = useSelector(state => state.orderDeliever);
+    const {loading:loadingDeliever, success:successDeliever} = orderDeliever;
+    const userLogin = useSelector(state => state.userLogin)
+    const {userInfo} = userLogin
     if(!loading) {
         const addDecimals = (num) => {
             return (Math.round(num * 100)/100).toFixed(2)
@@ -108,8 +111,12 @@ const OrderScreen = () => {
         // }
         // document.body.appendChild(script)
       // }
-      if(!order || successPay) {
+      if(!userInfo) {
+        navigate('/login')
+      }
+      if(!order || successPay || successDeliever) {
         dispatch({type: ORDER_PAY_RESET})
+        dispatch({type: ORDER_DELIEVER_RESET})
         dispatch(getOrderDetails(orderId.id))
       } else if(!order.isPaid) {
         if(!window.paypal) {
@@ -118,11 +125,14 @@ const OrderScreen = () => {
           setSdkReady(true)
         }
       }
-    }, [dispatch, orderId, successPay, order])
+    }, [dispatch, orderId, successPay, order, successDeliever])
     // const successPaymentHandler = (paymentResult) => {
     //   console.log(paymentResult)
     //   dispatch(payOrder(orderId, paymentResult))
     // }
+    const delieverHandeler = () => {
+      dispatch(delieverOrder(order))
+    }
 
   return loading ? <Loader></Loader> : error ? <Message variant="danger">{error}</Message> : (
     <>
@@ -215,8 +225,15 @@ const OrderScreen = () => {
                 {sdkReady ? <Loader /> : (
                   <Button onClick={handlePayment}>Pay</Button>
                 )} 
+                
               </ListGroup.Item>
              )}
+             {loadingDeliever && <Loader /> }
+                {userInfo && userInfo.IsAdmin && order.isPaid && !order.IsDelievered && (
+                  <ListGroup.Item>
+                    <Button type="button" className="btn btn-block" onClick={delieverHandeler}>Mark as Delivered</Button>
+                  </ListGroup.Item>
+                )}
           </ListGroup>
         </Col>
       </Row>

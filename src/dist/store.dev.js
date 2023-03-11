@@ -32,15 +32,22 @@ var reducer = (0, _redux.combineReducers)({
   userDelete: _loginReducer.userDeleteReducer,
   userUpdate: _loginReducer.userUpdateReducer,
   userList: _loginReducer.userListReducer,
+  productCreate: _productReducers.productCreateReducer,
+  productTopRated: _productReducers.productTopRatedReducer,
   orderCreate: _orderReducers.orderCreateReducer,
   orderDetails: _orderReducers.orderDetailsReducer,
   orderPay: _orderReducers.orderPayReducer,
-  orderListMy: _orderReducers.orderListMyReducer
+  orderDeliever: _orderReducers.orderDeliverReducer,
+  orderListMy: _orderReducers.orderListMyReducer,
+  orderList: _orderReducers.orderListReducer,
+  productDelete: _productReducers.productDeleteReducer,
+  productUpdate: _productReducers.productUpdateReducer,
+  productReviewCreate: _productReducers.productReviewCreateReducer
 });
 var cartItemsFromStorage = localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [];
 var userInfoFromStorage = localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : null;
-var shippingAddressFromStorage = localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress")) : {};
-console.log(shippingAddressFromStorage);
+var shippingAddressFromStorage = localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress")) : {}; // console.log(shippingAddressFromStorage);
+
 var initialState = {
   cart: {
     cartItems: cartItemsFromStorage,
